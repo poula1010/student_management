@@ -1,14 +1,15 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Course {
     @Id

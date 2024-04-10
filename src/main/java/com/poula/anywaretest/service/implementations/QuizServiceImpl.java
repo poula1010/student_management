@@ -86,6 +86,8 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public ResponseEntity<Boolean> deleteQuizById(long quizId) {
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST,"Quiz not found - " ));
+        quiz.getStudent().removeQuiz(quiz);
+        quizRepository.delete(quiz);
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 }

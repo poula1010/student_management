@@ -1,14 +1,17 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Teacher {
     @Id
@@ -21,6 +24,7 @@ public class Teacher {
 
     @Column(name = "last_name")
     private String lastName;
+
     @Getter(AccessLevel.NONE)
     @ManyToMany(cascade =  {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
@@ -28,16 +32,16 @@ public class Teacher {
             joinColumns = @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     )
-    private List<Course> courses;
+    private Set<Course> courses;
 
-    public List<Course> getCourses() {
-        if(courses == null) return new ArrayList<>();
+    public Set<Course> getCourses() {
+        if(courses == null) return new HashSet<>();
         return courses;
     }
 
     public void addCourse(Course course){
         if(courses == null){
-            courses = new ArrayList<>();
+            courses = new HashSet<>();
         }
         courses.add(course);
     }

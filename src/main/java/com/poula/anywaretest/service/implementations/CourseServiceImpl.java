@@ -9,6 +9,7 @@ import com.poula.anywaretest.repository.CourseRepository;
 import com.poula.anywaretest.repository.StudentRepository;
 import com.poula.anywaretest.repository.TeacherRepository;
 import com.poula.anywaretest.service.CourseService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,9 +60,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Boolean> deleteCourseById(int courseId) {
         try{
             Course course = courseRepository.findById(courseId).orElseThrow();
+            for(Student student: course.getStudents()){
+                student.removeCourse(course);
+            }
+            for(Teacher teacher: course.getTeachers()){
+                teacher.removeCourse(course);
+            }
             courseRepository.delete(course);
             return new ResponseEntity<>(true,HttpStatus.OK);
         }

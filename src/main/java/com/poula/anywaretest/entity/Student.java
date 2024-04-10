@@ -1,14 +1,17 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Student {
     @Id
@@ -28,28 +31,28 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id",referencedColumnName = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     )
-    private List<Course> courses;
+    private Set<Course> courses;
     @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
-    private List<Quiz> quizzes;
+    private Set<Quiz> quizzes;
 
-    public List<Course> getCourses() {
+    public Set<Course> getCourses() {
         if(courses== null){
-            courses= new ArrayList<>();
+            courses= new HashSet<>();
         }
         return courses;
     }
 
-    public List<Quiz> getQuizzes() {
+    public Set<Quiz> getQuizzes() {
         if (quizzes==null){
-            quizzes =new ArrayList<>();
+            quizzes =new HashSet<>();
         }
         return quizzes;
     }
 
     public void addQuiz(Quiz quiz){
         if(quizzes == null){
-            this.quizzes = new ArrayList<>();
+            this.quizzes = new HashSet<>();
         }
         quizzes.add(quiz);
     }
@@ -60,7 +63,7 @@ public class Student {
 
     public void addCourse(Course course){
         if(courses == null){
-            this.courses = new ArrayList<>();
+            this.courses = new HashSet<>();
         }
         courses.add(course);
     }

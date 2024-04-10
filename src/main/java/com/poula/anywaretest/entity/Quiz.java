@@ -1,9 +1,12 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Quiz {
     @Id
