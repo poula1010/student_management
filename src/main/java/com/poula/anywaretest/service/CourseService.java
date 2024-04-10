@@ -10,8 +10,6 @@ public interface CourseService {
     ResponseEntity<CourseDto> getCourseById(int courseId);
 
     ResponseEntity<List<CourseDto>> getAllCourses();
-    ResponseEntity<List<CourseDto>> getAllCoursesForStudentById(int studentId);
-    ResponseEntity<List<CourseDto>> getAllCoursesForTeacherById(int teacherId);
     ResponseEntity<CourseDto> addCourse(CourseDto courseDto);
 
     ResponseEntity<Boolean> deleteCourseById(int courseId);

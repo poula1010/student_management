@@ -3,6 +3,7 @@ package com.poula.anywaretest.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name="students_courses",
             joinColumns = @JoinColumn(name = "student_id",referencedColumnName = "student_id"),
@@ -29,10 +30,26 @@ public class Student {
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private List<Quiz> quizzes;
 
-//    @ManyToMany
-//    @JoinTable(
-//            joinColumns = @JoinColumn(name = "student_id"),
-//            inverseJoinColumns = @JoinColumn(name = "quiz_id")
-//    )
-//    private List<Quiz> quizes;
+
+    public void addQuiz(Quiz quiz){
+        if(quizzes == null){
+            this.quizzes = new ArrayList<>();
+        }
+        quizzes.add(quiz);
+    }
+
+    public void removeQuiz(Quiz quiz){
+        quizzes.remove(quiz);
+    }
+
+    public void addCourse(Course course){
+        if(courses == null){
+            this.courses = new ArrayList<>();
+        }
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+    }
 }

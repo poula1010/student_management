@@ -9,11 +9,11 @@ public interface TeacherService {
 
     ResponseEntity<TeacherDto> getTeacherById(int teacherId);
 
-    ResponseEntity<List<TeacherDto>> getAllTeachers(TeacherDto teacherDto);
+    ResponseEntity<List<TeacherDto>> getAllTeachers();
 
     ResponseEntity<TeacherDto> addTeacher(TeacherDto teacherDto);
 
     ResponseEntity<Boolean> deleteTeacherById(int teacherId);
 
-    ResponseEntity<TeacherDto> updateTeacher(TeacherDto teacherDto);
+    ResponseEntity<TeacherDto> updateTeacher(int teacherId,TeacherDto teacherDto);
 }

@@ -50,31 +50,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseEntity<List<CourseDto>> getAllCoursesForStudentById(int studentId) {
-        try{
-            Student student = studentRepository.findById(studentId).orElseThrow();
-            List<Course> courses = student.getCourses();
-            List<CourseDto> courseDtos = courses.stream().map(CourseDto::toCourseDto).collect(Collectors.toList());
-            return new ResponseEntity<>(courseDtos,HttpStatus.OK);
-        }
-        catch (Exception e){
-            throw new APIException(HttpStatus.BAD_REQUEST,"student doesn't exist");
-        }
-    }
-
-    @Override
-    public ResponseEntity<List<CourseDto>> getAllCoursesForTeacherById(int teacherId) {
-        try{
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow();
-        List<Course> courses = teacher.getCourses();
-        List<CourseDto> courseDtos = courses.stream().map(CourseDto::toCourseDto).collect(Collectors.toList());
-        return new ResponseEntity<>(courseDtos,HttpStatus.OK);}
-        catch (Exception e){
-            throw new APIException(HttpStatus.BAD_REQUEST,"teacher doesn't exist");
-        }
-    }
-
-    @Override
     public ResponseEntity<CourseDto> addCourse(CourseDto courseDto) {
         Course course = new Course();
         course.setCourseName(courseDto.getCourseName());

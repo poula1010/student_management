@@ -1,8 +1,11 @@
 package com.poula.anywaretest.service.implementations;
 
+import com.poula.anywaretest.dto.DetailedStudentDto;
 import com.poula.anywaretest.dto.StudentDto;
+import com.poula.anywaretest.entity.Course;
 import com.poula.anywaretest.entity.Student;
 import com.poula.anywaretest.exception.APIException;
+import com.poula.anywaretest.repository.CourseRepository;
 import com.poula.anywaretest.repository.StudentRepository;
 import com.poula.anywaretest.service.StudentService;
 import jakarta.transaction.Transactional;
@@ -16,10 +19,11 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
-
+    private CourseRepository courseRepository;
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository){
+    public StudentServiceImpl(StudentRepository studentRepository,CourseRepository courseRepository){
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
     @Override
     public ResponseEntity<StudentDto> addStudent(StudentDto studentDto) {
@@ -60,11 +64,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResponseEntity<StudentDto> getStudentById(int studentId) {
+    public ResponseEntity<DetailedStudentDto> addCourseToStudent(int studentId, int courseId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(()-> new APIException(HttpStatus.BAD_REQUEST,"this student doesn't exist"));
+        Course course = courseRepository.findById(courseId).orElseThrow(()->new APIException(HttpStatus.BAD_REQUEST,"this course doesn't exist"));
+        student.addCourse(course);
+        course.addStudent(student);
+
+        Student updatedStudent = studentRepository.save(student);
+        return new ResponseEntity<>(DetailedStudentDto.toDetailedStudentDto(updatedStudent),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<DetailedStudentDto> getStudentById(int studentId) {
         try{
             Student student = studentRepository.findById(studentId).orElseThrow();
-            StudentDto studentDto = StudentDto.toStudentDto(student);
-            return new ResponseEntity<>(studentDto,HttpStatus.OK);
+            DetailedStudentDto detailedStudentDto = DetailedStudentDto.toDetailedStudentDto(student);
+            return new ResponseEntity<>(detailedStudentDto,HttpStatus.OK);
         }
         catch (Exception e){
             throw new APIException(HttpStatus.BAD_REQUEST,"this student doesn't exist");

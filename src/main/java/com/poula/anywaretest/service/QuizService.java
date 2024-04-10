@@ -7,14 +7,12 @@ import java.util.List;
 
 public interface QuizService {
 
-    ResponseEntity<QuizDto> getQuizById(int quizId);
-    ResponseEntity<List<QuizDto>> getAllQuizzesByStudentId(int studentId);
-    ResponseEntity<List<QuizDto>> getAllQuizzesByCourseId(int courseId);
+    ResponseEntity<QuizDto> getQuizById(long quizId);
     ResponseEntity<QuizDto> addQuiz(QuizDto quizDto);
 
-    ResponseEntity<QuizDto> updateQuiz(QuizDto quizDto);
+    ResponseEntity<QuizDto> updateQuiz(long quizId,QuizDto quizDto);
 
-    ResponseEntity<Boolean> deleteQuizById(int quizId);
+    ResponseEntity<Boolean> deleteQuizById(long quizId);
 
 
 }

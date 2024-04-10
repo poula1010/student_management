@@ -19,7 +19,7 @@ public class Teacher {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany(cascade =  {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name="teachers_courses",
             joinColumns = @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id"),
