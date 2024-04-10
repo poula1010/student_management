@@ -1,7 +1,9 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +22,38 @@ public class Course {
     @Column(name = "description")
     private String description;
 
+    @Getter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "courses" , cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Student> students;
 
+    @Getter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "courses" ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Teacher> teachers;
 
+    @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private List<Quiz> quizzes;
+
+    public List<Quiz> getQuizzes() {
+        if(quizzes==null) {
+            quizzes = new ArrayList<>();
+        }
+        return quizzes;
+    }
+
+    public List<Student> getStudents() {
+        if(students == null) {
+            students= new ArrayList<>();
+        }
+        return students;
+    }
+
+    public List<Teacher> getTeachers() {
+        if(teachers == null){
+            teachers = new ArrayList<>();
+        }
+        return teachers;
+    }
 
     public void addQuiz(Quiz quiz){
         if(quizzes == null){
@@ -41,6 +67,12 @@ public class Course {
             students = new ArrayList<>();
         }
         students.add(student);
+    }
+    public void addTeacher(Teacher teacher){
+        if(teachers == null){
+            teachers = new ArrayList<>();
+        }
+        teachers.add(teacher);
     }
     public void removeStudent(Student student){
         students.remove(student);

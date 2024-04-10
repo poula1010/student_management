@@ -14,6 +14,7 @@ public interface StudentService {
     ResponseEntity<StudentDto> updateStudentById(int studentId,StudentDto studentDto);
 
     ResponseEntity<DetailedStudentDto> addCourseToStudent(int studentId,int courseId);
+
     ResponseEntity<DetailedStudentDto> getStudentById(int studentId);
 
     ResponseEntity<List<StudentDto>> getAllStudents();

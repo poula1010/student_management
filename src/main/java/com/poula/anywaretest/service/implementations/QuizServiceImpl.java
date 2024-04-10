@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+
 public class QuizServiceImpl implements QuizService {
     private QuizRepository quizRepository;
     private StudentRepository studentRepository;
 
     private CourseRepository courseRepository;
-    @Autowired
+
     public QuizServiceImpl(QuizRepository quizRepository, StudentRepository studentRepository, CourseRepository courseRepository){
         this.quizRepository = quizRepository;
         this.studentRepository = studentRepository;

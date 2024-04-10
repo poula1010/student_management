@@ -1,5 +1,6 @@
 package com.poula.anywaretest.controller;
 
+import com.poula.anywaretest.dto.DetailedTeacherDto;
 import com.poula.anywaretest.dto.TeacherDto;
 import com.poula.anywaretest.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,12 @@ public class TeacherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TeacherDto> getTeacherById(@PathVariable("id") int teacherId){
+    public ResponseEntity<DetailedTeacherDto> getTeacherById(@PathVariable("id") int teacherId){
         return this.teacherService.getTeacherById(teacherId);
+    }
+    @PostMapping("/{teacherId}/course/{courseId}")
+    public ResponseEntity<DetailedTeacherDto> addCourseToTeacher(@PathVariable("teacherId") int teacherId,@PathVariable("courseId") int courseId){
+        return this.teacherService.addCourseToTeacher(teacherId,courseId);
     }
     @GetMapping
     public ResponseEntity<List<TeacherDto>> getAllTeachers(){

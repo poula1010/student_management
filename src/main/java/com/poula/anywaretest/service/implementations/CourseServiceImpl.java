@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+
 public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
     private StudentRepository studentRepository;
     private TeacherRepository teacherRepository;
-    @Autowired
+
     public CourseServiceImpl(CourseRepository courseRepository,StudentRepository studentRepository, TeacherRepository teacherRepository)
     {
         this.courseRepository = courseRepository;

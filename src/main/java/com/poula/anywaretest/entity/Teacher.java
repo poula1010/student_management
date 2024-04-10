@@ -1,8 +1,11 @@
 package com.poula.anywaretest.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +21,7 @@ public class Teacher {
 
     @Column(name = "last_name")
     private String lastName;
-
+    @Getter(AccessLevel.NONE)
     @ManyToMany(cascade =  {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name="teachers_courses",
@@ -26,4 +29,20 @@ public class Teacher {
             inverseJoinColumns = @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     )
     private List<Course> courses;
+
+    public List<Course> getCourses() {
+        if(courses == null) return new ArrayList<>();
+        return courses;
+    }
+
+    public void addCourse(Course course){
+        if(courses == null){
+            courses = new ArrayList<>();
+        }
+        courses.add(course);
+    }
+    public void removeCourse(Course course){
+        if(courses == null) return;
+        courses.remove(course);
+    }
 }
