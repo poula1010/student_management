@@ -30,9 +30,7 @@
         <constructor-arg name="teacherRepository" ref="teacherRepository"/>
     </bean>
     <bean id="courseService" class="com.poula.anywaretest.service.implementations.CourseServiceImpl">
-        <constructor-arg name="studentRepository" ref="studentRepository"/>
         <constructor-arg name="courseRepository" ref="courseRepository"/>
-        <constructor-arg name="teacherRepository" ref="teacherRepository"/>
     </bean>
     <context:annotation-config/>
 

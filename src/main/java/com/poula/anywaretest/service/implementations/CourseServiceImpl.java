@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +22,10 @@ import java.util.stream.Collectors;
 
 public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
-    private StudentRepository studentRepository;
-    private TeacherRepository teacherRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository,StudentRepository studentRepository, TeacherRepository teacherRepository)
+    public CourseServiceImpl(CourseRepository courseRepository)
     {
         this.courseRepository = courseRepository;
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
-
     }
     @Override
     public ResponseEntity<CourseDto> getCourseById(int courseId) {
@@ -63,7 +59,13 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public ResponseEntity<Boolean> deleteCourseById(int courseId) {
         try{
+
             Course course = courseRepository.findById(courseId).orElseThrow();
+
+            /* alternatively we can when defining the tables in mysql/postgres (teachers_courses , students_courses) define
+             a foreign key constraint on Delete cascade and on update cascade for better performance
+            as we delete by course_id in one single query instead of one query per student and teacher
+            and the two for loops would no longer be required;*/
             for(Student student: course.getStudents()){
                 student.removeCourse(course);
             }
